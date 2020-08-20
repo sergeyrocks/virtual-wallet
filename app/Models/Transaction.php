@@ -47,7 +47,7 @@ class Transaction extends Model
     public function getFormattedAmount(): string
     {
         return $this->is_incoming ?
-            number_format($this->amount, 2) . ' $' :
-            '-' . number_format($this->amount, 2) . ' $';
+            '$ ' . number_format($this->amount, 2) :
+            '-$ ' . number_format($this->amount, 2);
     }
 }

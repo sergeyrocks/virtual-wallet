@@ -18,6 +18,10 @@
             <a href="{{ route('wallets.transactions.create', $wallet) }}" class="btn btn-primary">Add transaction</a>
             <a href="{{ route('wallets.index') }}" class="btn btn-link">Back to wallets list</a>
         </div>
+        <div class="row flex-column">
+            <h5 class="text-center">Total incoming: ${{ number_format($totalIncoming) }}</h5>
+            <h5 class="text-center">Total outgoing: -${{ number_format($totalOutgoing) }}</h5>
+        </div>
         <div class="row justify-content-center">
             <div class="col">
                 @if(session('alert'))

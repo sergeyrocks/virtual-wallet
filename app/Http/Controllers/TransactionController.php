@@ -26,7 +26,10 @@ class TransactionController extends Controller
     public function index(Wallet $wallet)
     {
         $transactions = $wallet->transactions()->get();
-        return view('transactions.index', compact('wallet', 'transactions'));
+        $totalIncoming = $wallet->transactions()->where('is_incoming', true)->sum('amount');
+        $totalOutgoing = $wallet->transactions()->where('is_incoming', false)->sum('amount');
+
+        return view('transactions.index', compact('wallet', 'transactions', 'totalOutgoing', 'totalIncoming'));
     }
 
     /**

@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name') }}</title>
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -59,7 +59,5 @@
             @yield('content')
         </main>
     </div>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

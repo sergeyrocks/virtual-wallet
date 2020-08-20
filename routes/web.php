@@ -23,4 +23,6 @@ Auth::routes([
     'verify'   => false,
 ]);
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', fn() => redirect()->route('wallets.index'))->name('home');
+Route::resource('wallets', 'WalletController')->except('show');
+Route::resource('wallets.transactions', 'TransactionController')->except(['show', 'edit']);

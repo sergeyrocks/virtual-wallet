@@ -32,4 +32,22 @@ class Transaction extends Model
     {
         return $this->hasOne(Wallet::class);
     }
+
+    /**
+     * @return string
+     */
+    public function getDateString(): string
+    {
+        return $this->created_at->toDateString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormattedAmount(): string
+    {
+        return $this->is_incoming ?
+            number_format($this->amount, 2) . ' $' :
+            '-' . number_format($this->amount, 2) . ' $';
+    }
 }

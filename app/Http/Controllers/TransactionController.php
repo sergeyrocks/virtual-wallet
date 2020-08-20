@@ -81,14 +81,19 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Wallet      $wallet
      * @param Transaction $transaction
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Wallet $wallet, Transaction $transaction)
     {
+        $wallet->balance = $transaction->is_incoming ?
+            bcsub($wallet->balance, $transaction->amount) :
+            bcadd($wallet->balance, $transaction->amount);
+        $wallet->save();
         $transaction->delete();
-        return redirect(route('wallets.transactions.index'))
+        return redirect(route('wallets.transactions.index', $wallet))
             ->with('alert', ['type' => 'danger', 'message' => 'Transaction successfully removed']);
     }
 }

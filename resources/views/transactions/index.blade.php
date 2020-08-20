@@ -50,6 +50,7 @@
                                         <td class="@if($transaction->is_incoming) text-success @else text-danger @endif">{{ $transaction->getFormattedAmount() }}</td>
                                         <td>
                                             <form action="{{ route('wallets.transactions.update', ['wallet' => $wallet, 'transaction' => $transaction]) }}"
+                                                  class="d-inline-block"
                                                   method="POST">
                                                 @csrf
                                                 @method('PATCH')
@@ -57,8 +58,18 @@
                                                        name="is_fraudulent"
                                                        value="{{ $transaction->is_fraudulent ? 'false' : 'true' }}">
                                                 <button type="submit"
-                                                        class="btn btn-link">
+                                                        class="btn btn-link py-0">
                                                     {{ $transaction->is_fraudulent ? 'Unmark fraudulent' : 'Mark fraudulent' }}
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('wallets.transactions.destroy', ['wallet' => $wallet, 'transaction' => $transaction]) }}"
+                                                  method="POST"
+                                                  class="d-inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="btn btn-link text-danger py-0">
+                                                    Remove
                                                 </button>
                                             </form>
                                         </td>

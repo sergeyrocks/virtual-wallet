@@ -25,7 +25,7 @@ class TransactionController extends Controller
      */
     public function index(Wallet $wallet)
     {
-        $transactions = $wallet->transactions()->get();
+        $transactions = $wallet->transactions()->latest()->get();
         $totalIncoming = $wallet->transactions()->where('is_incoming', true)->sum('amount');
         $totalOutgoing = $wallet->transactions()->where('is_incoming', false)->sum('amount');
 
@@ -46,20 +46,22 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(TransactionStoreRequest $request, Wallet $wallet)
     {
         $transaction = $request->validated();
         $transaction['is_incoming'] = isset($transaction['is_incoming']) ?
-            (boolean) $transaction['is_incoming'] :
+            (boolean)$transaction['is_incoming'] :
             false;
         $transaction['wallet_id'] = $wallet->id;
+
         $wallet->balance = $transaction['is_incoming'] ?
             bcadd($wallet->balance, $transaction['amount']) :
             bcsub($wallet->balance, $transaction['amount']);
-        Transaction::create($transaction);
+
+        $wallet->transactions()->save(Transaction::make($transaction));
         $wallet->save();
 
         return redirect(route('wallets.transactions.index', $wallet))
@@ -76,6 +78,7 @@ class TransactionController extends Controller
     public function update(TransactionUpdateRequest $request, Wallet $wallet, Transaction $transaction)
     {
         $transaction->fill($request->validated())->save();
+
         return redirect(route('wallets.transactions.index', $wallet))
             ->with('alert', ['type' => 'success', 'message' => 'Transaction updated successfully']);
 
@@ -96,6 +99,7 @@ class TransactionController extends Controller
             bcadd($wallet->balance, $transaction->amount);
         $wallet->save();
         $transaction->delete();
+
         return redirect(route('wallets.transactions.index', $wallet))
             ->with('alert', ['type' => 'danger', 'message' => 'Transaction successfully removed']);
     }

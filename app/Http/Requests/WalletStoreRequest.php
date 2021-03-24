@@ -36,8 +36,8 @@ class WalletStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'A title is required',
-            'title.regex'    => 'The title format is invalid. Allowed uppercase and lowercase letters, number and symbols: ". -_"',
+            'title.required'  => 'A title is required',
+            'title.regex'     => 'The title format is invalid. Allowed uppercase and lowercase letters, number and symbols: ". -_"',
             'balance.numeric' => 'The balance must be a number. Use "." for decimals.',
         ];
     }

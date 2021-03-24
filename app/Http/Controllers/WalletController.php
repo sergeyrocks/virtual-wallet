@@ -26,6 +26,7 @@ class WalletController extends Controller
     public function index()
     {
         $wallets = Auth::user()->wallets()->latest()->get();
+
         return view('wallets.index', compact('wallets'));
     }
 
@@ -58,7 +59,7 @@ class WalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Wallet  $wallet
+     * @param \App\Models\Wallet $wallet
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function edit(Wallet $wallet)
@@ -74,6 +75,7 @@ class WalletController extends Controller
     public function update(WalletUpdateRequest $request, Wallet $wallet)
     {
         $wallet->fill($request->validated())->save();
+
         return redirect(route('wallets.edit', $wallet))
             ->with('alert', ['type' => 'success', 'message' => 'Wallet title changed successfully']);
     }
@@ -88,6 +90,7 @@ class WalletController extends Controller
     public function destroy(Wallet $wallet)
     {
         $wallet->delete();
+
         return redirect(route('wallets.index'))
             ->with('alert', ['type' => 'danger', 'message' => 'Wallet successfully removed']);
     }

@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Wallet::class, function (Faker $faker) {
     return [
-        'title'   => $faker->text('50'),
+        'title'   => 'Sample wallet',
         'balance' => $faker->randomFloat(2, 10000, 30000),
     ];
 });

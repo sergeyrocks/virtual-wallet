@@ -1,15 +1,17 @@
 # Virtual wallet app
 
-`.env` file was left on purpose.
+`.env` file is left on purpose for quick access to pre-made configuration.
 
-Run `composer install`
+Run `docker-compose up -d` to install and start docker containers
 
-Run `php artisan migrate` after setting up your database credentials in `.env' file
+Run `docker-compose exec php composer install -d /app`
 
-Run `php artisan serve` to make the app accessible by http://localhost:8000
+Run `docker-compose exec php php /app/artisan migrate`
 
-If you don't have an development environment for Laravel already, consider using the [Bitnami Laravel Development Container](https://hub.docker.com/r/bitnami/laravel/).
+App is accessed at `localhost:8000`
 
-App requires `php 7.4` and `bcmath` extension for calculations precision, make sure you have it installed.
+For quickstart you can run `docker-compose exec php php /app/artisan db:seed` to add user with wallet and 15 transactions.
 
-For quickstart you can run `php artisan db:seed` to add user with wallet and 15 transactions. Users' password is set to `1`
+Login details:
+e-mail: `user@example.org`,
+password: `1`

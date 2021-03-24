@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  php:
+    image: webdevops/php-apache-dev:7.4
+    ports:
+      - "8000:80"
+    expose:
+      - "9000"
+    volumes:
+      - .:/app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - PHP_DISPLAY_ERRORS=1
+      - WEB_DOCUMENT_ROOT=/app/public
+      - PHP_MEMORY_LIMIT=2G
+      - PHP_DATE_TIMEZONE="Europe/Riga"
+    networks:
+      - app-network
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: virtual_wallet
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

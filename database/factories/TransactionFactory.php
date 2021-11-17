@@ -1,17 +1,20 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Transaction;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Transaction::class, function (Faker $faker) {
-    return [
-        'is_incoming'   => $faker->boolean(35),
-        'is_fraudulent' => $faker->boolean(20),
-        'amount'        => $faker->randomFloat(2, 50, 800),
-        'reference'     => $faker->text(150),
-        'payer'         => $faker->text(150),
-        'beneficiary'   => $faker->text(150),
-    ];
-});
+class TransactionFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'is_incoming'   => $this->faker->boolean(35),
+            'is_fraudulent' => $this->faker->boolean(20),
+            'amount'        => $this->faker->randomFloat(2, 50, 800),
+            'reference'     => $this->faker->text(150),
+            'payer'         => $this->faker->text(150),
+            'beneficiary'   => $this->faker->text(150),
+        ];
+    }
+}

@@ -6,14 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateWalletsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('wallets', function (Blueprint $table) {
+        Schema::create('wallets', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('title', 150);
@@ -23,11 +18,6 @@ class CreateWalletsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('wallets');

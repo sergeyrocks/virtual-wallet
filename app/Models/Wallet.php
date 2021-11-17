@@ -2,46 +2,34 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
-
+    use HasFactory;
     use SoftDeletes;
-    /**
-     * @var string[]
-     */
-    protected $guarded = ['id'];
 
-    /**
-     * @var string[]
-     */
+    protected $guarded = ['id'];
     protected $fillable = [
         'user_id',
         'title',
         'balance',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return string
-     */
     public function getBalance(): string
     {
         return number_format($this->balance, 2);

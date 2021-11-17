@@ -2,22 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-
+    use HasFactory;
     use SoftDeletes;
 
-    /**
-     * @var string[]
-     */
     protected $guarded = ['id'];
-
-    /**
-     * @var string[]
-     */
     protected $fillable = [
         'wallet_id',
         'is_incoming',
@@ -28,26 +23,20 @@ class Transaction extends Model
         'beneficiary',
     ];
 
-    public function wallet()
+    public function wallet(): HasOne
     {
         return $this->hasOne(Wallet::class);
     }
 
-    /**
-     * @return string
-     */
     public function getDateString(): string
     {
         return $this->created_at->toDateString();
     }
 
-    /**
-     * @return string
-     */
     public function getFormattedAmount(): string
     {
         return $this->is_incoming ?
-            '$ ' . number_format($this->amount, 2) :
-            '-$ ' . number_format($this->amount, 2);
+            '$ '.number_format($this->amount, 2) :
+            '-$ '.number_format($this->amount, 2);
     }
 }

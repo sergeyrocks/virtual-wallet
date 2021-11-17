@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
-* @see \Laravel\Ui\AuthRouteMethods::auth()
-*/
+ * @see \Laravel\Ui\AuthRouteMethods::auth()
+ */
 Auth::routes([
-    'reset'    => false,
-    'confirm'  => false,
-    'verify'   => false,
+    'reset'   => false,
+    'confirm' => false,
+    'verify'  => false,
 ]);
 
 Route::get('/', fn() => redirect()->route('wallets.index'))->name('home');

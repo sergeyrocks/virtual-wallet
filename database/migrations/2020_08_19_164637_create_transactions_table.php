@@ -6,19 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTransactionsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('transactions', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('wallet_id')->constrained('wallets')->onDelete('cascade');
             $table->boolean('is_incoming')->default(0);
             $table->boolean('is_fraudulent')->default(0);
-            $table->float('amount', 30, 2);
+            $table->float('amount', 30);
             $table->string('reference');
             $table->string('payer');
             $table->string('beneficiary');
@@ -27,11 +22,6 @@ class CreateTransactionsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('transactions');

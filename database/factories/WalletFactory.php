@@ -1,13 +1,16 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Wallet;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Wallet::class, function (Faker $faker) {
-    return [
-        'title'   => 'Sample wallet',
-        'balance' => $faker->randomFloat(2, 10000, 30000),
-    ];
-});
+class WalletFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'title' => 'Sample wallet',
+            'balance' => $this->faker->randomFloat(2, 10000, 3000),
+        ];
+    }
+}

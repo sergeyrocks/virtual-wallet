@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +26,5 @@ Auth::routes([
 ]);
 
 Route::get('/', fn() => redirect()->route('wallets.index'))->name('home');
-Route::resource('wallets', 'WalletController')->except('show');
-Route::resource('wallets.transactions', 'TransactionController')->except(['show', 'edit']);
+Route::resource('wallets', WalletController::class)->except('show');
+Route::resource('wallets.transactions', TransactionController::class)->except(['show', 'edit']);

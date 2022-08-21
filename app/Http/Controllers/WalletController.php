@@ -16,7 +16,10 @@ class WalletController extends Controller
 {
     public function index(): Factory|View|Application
     {
-        $wallets = Auth::user()->wallets()->latest()->get();
+        $wallets = Auth::user()
+            ->wallets()
+            ->latest()
+            ->get();
 
         return view('wallets.index', compact('wallets'));
     }
@@ -28,29 +31,44 @@ class WalletController extends Controller
 
     public function store(WalletStoreRequest $request): Redirector|Application|RedirectResponse
     {
-        $wallet = $request->validated();
-        $wallet['user_id'] = Auth::user()->id;
-        Wallet::create($wallet);
+        Auth::user()
+            ->wallets()
+            ->create($request->validated());
 
         return redirect(route('wallets.index'))
             ->with('alert', ['type' => 'success', 'message' => 'Wallet created successfully']);
     }
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(Wallet $wallet): Factory|View|Application
     {
+        $this->authorize('edit', $wallet);
+
         return view('wallets.edit', compact('wallet'));
     }
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(WalletUpdateRequest $request, Wallet $wallet): Redirector|Application|RedirectResponse
     {
+        $this->authorize('update', $wallet);
+
         $wallet->fill($request->validated())->save();
 
         return redirect(route('wallets.edit', $wallet))
             ->with('alert', ['type' => 'success', 'message' => 'Wallet title changed successfully']);
     }
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function destroy(Wallet $wallet): Redirector|Application|RedirectResponse
     {
+        $this->authorize('delete', $wallet);
+
         $wallet->delete();
 
         return redirect(route('wallets.index'))

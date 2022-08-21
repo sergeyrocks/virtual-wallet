@@ -5,48 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\WalletStoreRequest;
 use App\Http\Requests\WalletUpdateRequest;
 use App\Models\Wallet;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class WalletController extends Controller
 {
-
-    /**
-     * WalletController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $wallets = Auth::user()->wallets()->latest()->get();
 
         return view('wallets.index', compact('wallets'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
+    public function create(): Factory|View|Application
     {
         return view('wallets.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param WalletStoreRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
-     */
-    public function store(WalletStoreRequest $request)
+    public function store(WalletStoreRequest $request): Redirector|Application|RedirectResponse
     {
         $wallet = $request->validated();
         $wallet['user_id'] = Auth::user()->id;
@@ -56,23 +36,12 @@ class WalletController extends Controller
             ->with('alert', ['type' => 'success', 'message' => 'Wallet created successfully']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Wallet $wallet
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
-     */
-    public function edit(Wallet $wallet)
+    public function edit(Wallet $wallet): Factory|View|Application
     {
         return view('wallets.edit', compact('wallet'));
     }
 
-    /**
-     * @param WalletUpdateRequest $request
-     * @param Wallet              $wallet
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(WalletUpdateRequest $request, Wallet $wallet)
+    public function update(WalletUpdateRequest $request, Wallet $wallet): Redirector|Application|RedirectResponse
     {
         $wallet->fill($request->validated())->save();
 
@@ -80,14 +49,7 @@ class WalletController extends Controller
             ->with('alert', ['type' => 'success', 'message' => 'Wallet title changed successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Wallet $wallet
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
-     * @throws \Exception
-     */
-    public function destroy(Wallet $wallet)
+    public function destroy(Wallet $wallet): Redirector|Application|RedirectResponse
     {
         $wallet->delete();
 

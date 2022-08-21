@@ -26,5 +26,7 @@ Auth::routes([
 ]);
 
 Route::get('/', fn() => redirect()->route('wallets.index'))->name('home');
-Route::resource('wallets', WalletController::class)->except('show');
+Route::resource('wallets', WalletController::class)
+    ->except('show')
+    ->middleware(['auth']);
 Route::resource('wallets.transactions', TransactionController::class)->except(['show', 'edit']);

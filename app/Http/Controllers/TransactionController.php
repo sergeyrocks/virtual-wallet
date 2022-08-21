@@ -48,17 +48,17 @@ class TransactionController extends Controller
 
     public function update(
         TransactionUpdateRequest $request,
-        Wallet $wallet,
         Transaction $transaction
     ): Response|Redirector|RedirectResponse {
         $transaction->fill($request->validated())->save();
 
-        return redirect(route('wallets.transactions.index', $wallet))
+        return redirect(route('wallets.transactions.index', $transaction->wallet_id))
             ->with('alert', ['type' => 'success', 'message' => 'Transaction updated successfully']);
     }
 
-    public function destroy(Wallet $wallet, Transaction $transaction): Redirector|Application|RedirectResponse
+    public function destroy(Transaction $transaction): Redirector|Application|RedirectResponse
     {
+        $wallet = $transaction->wallet;
         $wallet->balance = $transaction->is_incoming
             ? bcsub($wallet->balance, $transaction->amount)
             : bcadd($wallet->balance, $transaction->amount);

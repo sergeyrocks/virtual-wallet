@@ -13,10 +13,10 @@ class TransactionStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return Auth::check() && $this->route('wallet')->user_id === $this->user()->id;
-    }
+//    public function authorize()
+//    {
+//        return Auth::check() && $this->route('wallet')->user_id === $this->user()->id;
+//    }
 
     /**
      * Get the validation rules that apply to the request.

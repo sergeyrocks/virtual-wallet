@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property Carbon|null $deleted_at
  * @property-read Collection|Transaction[] $transactions
  * @property-read User $user
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Wallet extends Model
 {

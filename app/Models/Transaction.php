@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Wallet $wallet
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Transaction extends Model
 {

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\TransactionCreate;
 use App\Http\Requests\TransactionStoreRequest;
 use App\Http\Requests\TransactionUpdateRequest;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Services\TransactionService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -29,18 +31,14 @@ class TransactionController extends Controller
         return view('transactions.create', compact('wallet'));
     }
 
-    public function store(TransactionStoreRequest $request, Wallet $wallet): Redirector|Application|RedirectResponse
+    public function store(
+        TransactionStoreRequest $request,
+        Wallet $wallet,
+        TransactionService $service
+    ): Redirector|Application|RedirectResponse
     {
-        $transaction = $request->validated();
-        $transaction['is_incoming'] = isset($transaction['is_incoming']) && $transaction['is_incoming'];
-        $transaction['wallet_id'] = $wallet->id;
-
-        $wallet->balance = $transaction['is_incoming'] ?
-            bcadd($wallet->balance, $transaction['amount']) :
-            bcsub($wallet->balance, $transaction['amount']);
-
-        $wallet->transactions()->save(Transaction::make($transaction));
-        $wallet->save();
+        $data = new TransactionCreate(...$request->validated());
+        $service->create($wallet, $data);
 
         return redirect(route('wallets.transactions.index', $wallet))
             ->with('alert', ['type' => 'success', 'message' => 'Transaction created successfully']);

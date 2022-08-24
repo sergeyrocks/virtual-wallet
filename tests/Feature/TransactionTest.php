@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Transaction;
+use Database\Factories\TransactionFactory;
 use Database\Factories\UserFactory;
 use Database\Factories\WalletFactory;
 
@@ -24,7 +25,7 @@ test('user can create transaction', function () {
     $this->actingAs($user)
         ->post(route('wallets.transactions.store', $wallet), $payload)
         ->assertSessionHasNoErrors()
-        ->assertRedirect();
+        ->assertRedirect(route('wallets.transactions.index', $wallet));
 
     $this->assertDatabaseHas(
         (new Transaction())->getTable(),
@@ -34,6 +35,36 @@ test('user can create transaction', function () {
     $this->assertTrue($wallet->balance > $wallet->fresh()->balance);
     $this->assertEquals(
         bcadd($wallet->fresh()->balance, $payload['amount'], 2),
+        $wallet->balance
+    );
+});
+
+test('user can delete transaction', function () {
+    /** @var \App\Models\User $user */
+    $user = (new UserFactory)->create();
+
+    /** @var \App\Models\Wallet $wallet */
+    $wallet = (new WalletFactory())->for($user)
+        ->create();
+
+    /** @var Transaction $transaction */
+    $transaction = (new TransactionFactory())->state([
+        'is_incoming' => false,
+    ])
+        ->for($wallet)
+        ->create();
+
+    $this->assertTrue($transaction->deleted_at === null);
+
+    $this->actingAs($user)
+        ->delete(route('transactions.destroy', $transaction))
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('wallets.transactions.index', $wallet));
+
+    $this->assertTrue($transaction->fresh()->deleted_at !== null);
+    $this->assertTrue($wallet->fresh()->balance > $wallet->balance);
+    $this->assertEquals(
+        bcsub($wallet->fresh()->balance, $transaction->amount, 2),
         $wallet->balance
     );
 });

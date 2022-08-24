@@ -23,4 +23,14 @@ class TransactionService
 
         return $transaction;
     }
+
+    public function delete(Transaction $transaction): void
+    {
+        $wallet = $transaction->wallet;
+        $wallet->balance = $transaction->is_incoming
+            ? bcsub($wallet->balance, $transaction->amount, 2)
+            : bcadd($wallet->balance, $transaction->amount, 2);
+        $wallet->save();
+        $transaction->delete();
+    }
 }

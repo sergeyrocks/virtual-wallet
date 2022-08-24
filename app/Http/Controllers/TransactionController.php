@@ -54,16 +54,11 @@ class TransactionController extends Controller
             ->with('alert', ['type' => 'success', 'message' => 'Transaction updated successfully']);
     }
 
-    public function destroy(Transaction $transaction): Redirector|Application|RedirectResponse
+    public function destroy(Transaction $transaction, TransactionService $service): Redirector|Application|RedirectResponse
     {
-        $wallet = $transaction->wallet;
-        $wallet->balance = $transaction->is_incoming
-            ? bcsub($wallet->balance, $transaction->amount)
-            : bcadd($wallet->balance, $transaction->amount);
-        $wallet->save();
-        $transaction->delete();
+        $service->delete($transaction);
 
-        return redirect(route('wallets.transactions.index', $wallet))
+        return redirect(route('wallets.transactions.index', $transaction->wallet))
             ->with('alert', ['type' => 'danger', 'message' => 'Transaction successfully removed']);
     }
 }

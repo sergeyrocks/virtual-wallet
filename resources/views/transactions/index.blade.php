@@ -53,7 +53,7 @@
                                         <td>{{ $transaction->reference }}</td>
                                         <td class="@if($transaction->is_incoming) text-success @else text-danger @endif">{{ $transaction->getFormattedAmount() }}</td>
                                         <td>
-                                            <form action="{{ route('wallets.transactions.update', ['wallet' => $wallet, 'transaction' => $transaction]) }}"
+                                            <form action="{{ route('transactions.update', $transaction) }}"
                                                   class="d-inline-block"
                                                   method="POST">
                                                 @csrf
@@ -66,7 +66,7 @@
                                                     {{ $transaction->is_fraudulent ? 'Unmark fraudulent' : 'Mark fraudulent' }}
                                                 </button>
                                             </form>
-                                            <form action="{{ route('wallets.transactions.destroy', ['wallet' => $wallet, 'transaction' => $transaction]) }}"
+                                            <form action="{{ route('transactions.destroy', $transaction) }}"
                                                   method="POST"
                                                   class="d-inline-block">
                                                 @csrf

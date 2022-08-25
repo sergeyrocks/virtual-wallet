@@ -33,6 +33,9 @@ class Wallet extends Model
         'title',
         'balance',
     ];
+    protected $casts = [
+        'balance' => 'decimal:2',
+    ];
 
     public function transactions(): HasMany
     {

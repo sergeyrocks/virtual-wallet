@@ -38,6 +38,9 @@ class Transaction extends Model
         'payer',
         'beneficiary',
     ];
+    protected $casts = [
+        'amount' => 'decimal:2',
+    ];
 
     public function wallet(): BelongsTo
     {

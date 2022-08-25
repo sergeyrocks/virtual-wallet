@@ -4,25 +4,14 @@ namespace App\Http\Requests;
 
 class TransactionUpdateRequest extends TransactionStoreRequest
 {
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'is_fraudulent' => $this->is_fraudulent === 'true',
         ]);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'is_fraudulent' => 'required|boolean',

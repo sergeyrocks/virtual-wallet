@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Policies\TransactionPolicy;
 use App\Policies\WalletPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Wallet::class => WalletPolicy::class
+        Wallet::class => WalletPolicy::class,
+        Transaction::class => TransactionPolicy::class,
     ];
 
     /**

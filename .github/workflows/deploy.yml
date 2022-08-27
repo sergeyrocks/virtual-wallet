@@ -16,3 +16,9 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           procfile: ${{secrets.HEROKU_PROCFILE}}
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: echo ${{secrets.HEROKU_PROCFILE}}

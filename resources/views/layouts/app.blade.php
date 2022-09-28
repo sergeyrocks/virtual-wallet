@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name') }}</title>
     <!-- Styles -->
-    <link href="{{ mix('app.css') }}" rel="stylesheet">
+    <link href="{{ mix('app-old.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

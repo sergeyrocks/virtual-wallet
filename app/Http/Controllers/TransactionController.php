@@ -79,6 +79,6 @@ class TransactionController extends Controller
         $service->delete($transaction);
 
         return redirect(route('wallets.transactions.index', $transaction->wallet))
-            ->with('alert', ['type' => 'danger', 'message' => 'Transaction successfully removed']);
+            ->with('alert', ['type' => 'error', 'message' => 'Transaction successfully removed']);
     }
 }

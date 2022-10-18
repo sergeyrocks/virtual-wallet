@@ -72,6 +72,6 @@ class WalletController extends Controller
         $wallet->delete();
 
         return redirect(route('wallets.index'))
-            ->with('alert', ['type' => 'danger', 'message' => 'Wallet successfully removed']);
+            ->with('alert', ['type' => 'error', 'message' => 'Wallet successfully removed']);
     }
 }

@@ -7,117 +7,105 @@
 ?>
 
 @section('content')
-    <div class="container pt-5">
-        <div class="row">
-            <div class="col">
-                <h1 class="text-center">Create transaction</h1>
-            </div>
+
+    <x-page-title>{{ __('Create transaction') }}</x-page-title>
+
+    @include('partials.alert')
+
+    <form method="POST"
+          action="{{ route('wallets.transactions.store', $wallet) }}"
+          class="grid grid-cols-1 gap-4 py-6">
+        @csrf
+
+        <div class="form-control w-full max-w-xs mx-auto">
+            <x-label for="is_incoming" class="cursor-pointer select-none text-sm">
+                <input type="checkbox"
+                       name="is_incoming"
+                       class="checkbox checkbox-primary checkbox-xs"
+                       @if(old('transaction.is_incoming') === '1')
+                           checked
+                       @endif
+                       id="is_incoming"/>
+                {{ __('Incoming') }}
+            </x-label>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                @if(session('alert'))
-                    <div class="row no-gutters">
-                        <div class="col">
-                            @include('components.alert', ['type' => session('alert')['type'], 'slot' => session('alert')['message']])
-                        </div>
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ route('wallets.transactions.store', $wallet) }}"
-                              method="POST"
-                              class="mx-auto"
-                              style="max-width: 550px;">
-                            @csrf
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="is_incoming"
-                                           value=1"
-                                           @if(old('transaction.is_incoming') === '1')
-                                           checked
-                                           @endif
-                                           id="incoming">
-                                    <label class="form-check-label" for="incoming">
-                                        Incoming
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="amount" class="col-form-label">Amount</label>
-                                <div>
-                                    <input id="amount"
-                                           type="text"
-                                           class="form-control @error('amount') is-invalid @enderror"
-                                           name="amount"
-                                           value="{{ old('amount') }}"
-                                           required>
 
-                                    @error('amount')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="reference" class="col-form-label">Reference</label>
-                                <div>
-                                    <input id="reference"
-                                           type="text"
-                                           class="form-control @error('reference') is-invalid @enderror"
-                                           name="reference"
-                                           value="{{ old('reference') }}"
-                                           required>
+        <div class="form-control w-full max-w-xs mx-auto">
+            <x-label for="amount">{{ __('Amount') }}</x-label>
+            <input class="input-md"
+                   id="amount"
+                   type="text"
+                   name="amount"
+                   value="{{ old('amount') }}"
+                   required
+                   autofocus/>
 
-                                    @error('reference')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="payer" class="col-form-label">Payer</label>
-                                <div>
-                                    <input id="payer"
-                                           type="text"
-                                           class="form-control @error('payer') is-invalid @enderror"
-                                           name="payer"
-                                           value="{{ old('payer') }}">
-
-                                    @error('payer')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="beneficiary" class="col-form-label">Beneficiary</label>
-                                <div>
-                                    <input id="beneficiary"
-                                           type="text"
-                                           class="form-control @error('beneficiary') is-invalid @enderror"
-                                           name="beneficiary"
-                                           value="{{ old('beneficiary') }}">
-
-                                    @error('beneficiary')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{ route('wallets.index') }}" class="btn btn-link">Back</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            @error('amount')
+            <span class="text-sm text-error"
+                  role="alert">
+                    *{{ $message }}
+                 </span>
+            @enderror
         </div>
-    </div>
+
+        <div class="form-control w-full max-w-xs mx-auto">
+            <x-label for="reference">{{ __('Reference') }}</x-label>
+            <input class="input-md"
+                   id="reference"
+                   type="text"
+                   name="reference"
+                   value="{{ old('reference') }}"
+                   required
+                   autofocus/>
+
+            @error('reference')
+            <span class="text-sm text-error"
+                  role="alert">
+                    *{{ $message }}
+                 </span>
+            @enderror
+        </div>
+
+        <div class="form-control w-full max-w-xs mx-auto">
+            <x-label for="payer">{{ __('Payer') }}</x-label>
+            <input class="input-md"
+                   id="payer"
+                   type="text"
+                   name="payer"
+                   value="{{ old('payer') }}"
+                   autofocus/>
+
+            @error('payer')
+            <span class="text-sm text-error"
+                  role="alert">
+                    *{{ $message }}
+                 </span>
+            @enderror
+        </div>
+
+        <div class="form-control w-full max-w-xs mx-auto">
+            <x-label for="beneficiary">{{ __('Beneficiary') }}</x-label>
+            <input class="input-md"
+                   id="beneficiary"
+                   type="text"
+                   name="beneficiary"
+                   value="{{ old('beneficiary') }}"
+                   autofocus/>
+
+            @error('beneficiary')
+            <span class="text-sm text-error"
+                  role="alert">
+                    *{{ $message }}
+                 </span>
+            @enderror
+        </div>
+
+        <div class="form-control w-full max-w-xs mx-auto">
+            <button type="submit"
+                    class="btn btn-primary">
+                {{ __('Save') }}
+            </button>
+            <a href="{{ route('wallets.index') }}" class="btn btn-link">{{ __('Cancel') }}</a>
+        </div>
+    </form>
 @endsection

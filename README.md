@@ -1,17 +1,20 @@
 # Virtual wallet app
 
-`.env` file is left on purpose for quick access to pre-made configuration.
+### Local setup
+You will need docker installed and launched, guide can be found on [docker home page](https://www.docker.com)
 
-Run `docker-compose up -d` to install and start docker containers
+Copy `.env.testing` to `.env`
 
-Run `docker-compose exec php composer install -d /app`
+Run `composer install`
 
-Run `docker-compose exec php php /app/artisan migrate`
+Run `./vendor/bin/sail up -d`
 
-App is accessed at `localhost:8000`
+Run `./vendor/bin/sail php artisan migrate`
 
-For quickstart you can run `docker-compose exec php php /app/artisan db:seed` to add user with wallet and 15 transactions.
+App can be accessed at [http://localhost:8000](http://localhost:8000)
+
+For quickstart you can run `./vendor/bin/sail php artisan db:seed` to add user with wallet and 15 transactions.
 
 Login details:
 e-mail: `user@example.org`,
-password: `1`
+password: `password`

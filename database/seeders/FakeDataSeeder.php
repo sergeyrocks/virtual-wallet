@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Hash;
 
 class FakeDataSeeder extends Seeder
 {
@@ -14,7 +15,10 @@ class FakeDataSeeder extends Seeder
     {
         $faker = Factory::create();
         /** @var User $user */
-        $user = User::factory()->create();
+        $user = User::factory()->state([
+            'email' => 'user@example.org',
+            'password' => Hash::make('password'),
+        ])->create();
 
         /** @var Wallet $wallet */
         $wallet = Wallet::factory()

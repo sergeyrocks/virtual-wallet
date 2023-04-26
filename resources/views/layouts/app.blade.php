@@ -8,6 +8,8 @@
     <title>{{ config('app.name') }}</title>
 
     @vite('resources/css/app.css')
+    @livewireStyles
+
     @vite('resources/js/app.js')
 </head>
 <body>
@@ -16,5 +18,6 @@
     <main class="p-4 container mx-auto">
         @yield('content')
     </main>
+    @livewireScripts
 </body>
 </html>

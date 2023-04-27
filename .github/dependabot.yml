@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: composer
     directory: "/"
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
       timezone: 'Europe/Riga'
     open-pull-requests-limit: 15
     reviewers:

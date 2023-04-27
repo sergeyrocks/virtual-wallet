@@ -11,7 +11,7 @@ Run `./vendor/bin/sail up -d`
 
 Run `./vendor/bin/sail php artisan migrate`
 
-App can be accessed at [http://localhost:8000](http://localhost:8000)
+App can be accessed at [http://localhost](http://localhost)
 
 For quickstart you can run `./vendor/bin/sail php artisan db:seed` to add user with wallet and 15 transactions.
 

@@ -5,7 +5,7 @@ use Database\Factories\TransactionFactory;
 use Database\Factories\UserFactory;
 use Database\Factories\WalletFactory;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 test('user can index transactions', function () {
     /** @var \App\Models\User $user */
@@ -44,10 +44,10 @@ test('user can create transaction', function () {
         ->create();
 
     $payload = [
-        'amount' => faker()->randomFloat(2, 10, 9999),
-        'reference' => faker()->text,
-        'payer' => faker()->iban,
-        'beneficiary' => faker()->iban,
+        'amount' => fake()->randomFloat(2, 10, 9999),
+        'reference' => fake()->text,
+        'payer' => fake()->iban,
+        'beneficiary' => fake()->iban,
     ];
 
     $this->actingAs($user)
@@ -117,10 +117,10 @@ test('user needs authorization to create transaction', function () {
         ->create();
 
     $payload = [
-        'amount' => faker()->randomFloat(2, 10, 9999),
-        'reference' => faker()->text,
-        'payer' => faker()->iban,
-        'beneficiary' => faker()->iban,
+        'amount' => fake()->randomFloat(2, 10, 9999),
+        'reference' => fake()->text,
+        'payer' => fake()->iban,
+        'beneficiary' => fake()->iban,
     ];
 
     $this->actingAs((new UserFactory())->create())

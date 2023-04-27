@@ -7,15 +7,15 @@ use Database\Factories\UserFactory;
 
 use Database\Factories\WalletFactory;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 test('user can create a wallet', function () {
     /** @var User $user */
     $user = (new UserFactory())->has((new WalletFactory()))->create();
 
     $payload = [
-        'title' => faker()->text(25),
-        'balance' => faker()->numberBetween(100, 9999),
+        'title' => fake()->text(25),
+        'balance' => fake()->numberBetween(100, 9999),
     ];
 
     $this->actingAs($user)
@@ -50,7 +50,7 @@ test('user can update wallet', function () {
         ->create();
 
     $payload = [
-        'title' => faker()->text(15),
+        'title' => fake()->text(15),
     ];
 
     $this->actingAs($user)
@@ -103,7 +103,7 @@ test('user needs authorization to update wallet', function () {
         ->create();
 
     $payload = [
-        'title' => faker()->text(15),
+        'title' => fake()->text(15),
     ];
 
     $this->actingAs($user)
